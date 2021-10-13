@@ -38,7 +38,10 @@ def wordpad():
 def whatsapp():
     try:
         subprocess.Popen(
-            os.path.join(os.path.join(os.environ["USERPROFILE"]), "AppData\\Local\\WhatsApp\\WhatsApp.exe", ))
+            os.path.join(
+                os.path.join(os.environ["USERPROFILE"]),
+                "AppData\\Local\\WhatsApp\\WhatsApp.exe",
+            ))
         print("Opened WhatsApp")
         talk('I have opened whatsapp for you')
 
@@ -146,7 +149,10 @@ def ordShortenSrch(ord):
 # .............folders......................
 def download():
     try:
-        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Downloads")))
+        os.startfile(
+            Path(
+                os.path.join(os.path.join(os.environ["USERPROFILE"]),
+                             "Downloads")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the downloads folder")
@@ -155,7 +161,10 @@ def download():
 
 def desktop():
     try:
-        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop")))
+        os.startfile(
+            Path(
+                os.path.join(os.path.join(os.environ["USERPROFILE"]),
+                             "Desktop")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the desktop folder")
@@ -235,7 +244,10 @@ def websiteopen(website):
     try:
         import difflib
 
-        approx_match = difflib.get_close_matches(website, websitelist, cutoff=0.7, n=1)
+        approx_match = difflib.get_close_matches(website,
+                                                 websitelist,
+                                                 cutoff=0.7,
+                                                 n=1)
         print(f"Approximated {website} to {approx_match[0]}")
         webbrowser.open(webdict[approx_match[0]])
         talk(f"opening {approx_match[0]}")
