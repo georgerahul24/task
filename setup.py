@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='task1',
     packages=['task1'],
-    version='1.3',
+    version='1.4',
     license='MIT',
     description='A package to automate various process',
     author='George Rahul',
