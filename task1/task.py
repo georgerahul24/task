@@ -37,16 +37,12 @@ def wordpad():
 
 def whatsapp():
     try:
-        subprocess.Popen(
-            os.path.join(
-                os.path.join(os.environ["USERPROFILE"]),
-                "AppData\\Local\\WhatsApp\\WhatsApp.exe",
-            ))
+        subprocess.Popen(os.path.join(os.path.join(os.environ["USERPROFILE"]), "AppData\\Local\\WhatsApp\\WhatsApp.exe"))
         print("Opened WhatsApp")
         talk('I have opened whatsapp for you')
 
     except Exception as e:
-        print(e, "Sorry i couldnt do what you requested Try again later")
+        print(e, "Sorry i couldn't do what you requested Try again later")
 
 
 def gimp():
@@ -68,7 +64,7 @@ def firefox():
 
 def photoshop():
     try:
-        os.system("photoshop")
+        os.system("start photoshop")
         talk("i have opened photoshop for you")
     except Exception as e:
         talk("Sorry, could not open photoshop")
@@ -104,7 +100,7 @@ def telegram():
 
 def powerpoint():
     try:
-        os.system("powerpnt")
+        os.system("start powerpnt")
         talk("i have opened powerpoint for you")
     except Exception as e:
         talk("Sorry, could not open powerpoint ")
@@ -113,19 +109,31 @@ def powerpoint():
 
 def msword():
     try:
-        os.system("winword")
+        os.system("start winword")
         talk("i have opened word for you")
     except Exception as e:
         talk("Sorry, could not open word")
         print("Sorry i couldnt do what you requested Try again later", e)
 
+def calc():
+    try:
+        os.system("calc")
+        talk("i have opened calculator for you")
+    except Exception as e:
+        talk("Sorry, could not open calculator")
+        print("Sorry i couldn't do what you requested Try again later", e)
+def notepad():
+    try:
+        os.system("notepad")
+        talk("i have opened notepad for you")
+    except Exception as e:
+        talk("Sorry, could not open notepad")
+        print("Sorry i couldn't do what you requested Try again later", e)
 
 # .........browser and net related................
 def web(searchword):
     try:
-        webbrowser.open("https://www.google.com/search?client=firefox-b-d&q=" +
-                        searchword,
-                        new=1)
+        webbrowser.open(("https://www.google.com/search?client=firefox-b-d&q=" + searchword), new=1)
         talk(f"This is what I found for {searchword}")
     except:
         webbrowser.open(searchword, new=1)
@@ -137,22 +145,15 @@ def youtube(srch):
     talk('Here is what you requested')
 
 
-def ordShortenSrch(ord):
-    parts = ord.split()
-    parts = parts[1:]
-    ord = ""
-    for part in parts:
-        ord += f"{part} "
-    return ord
+def ordShortenSrch(ord: str) -> str:
+    parts = ord.split()[1:]
+    return " ".join(parts)
 
 
 # .............folders......................
 def download():
     try:
-        os.startfile(
-            Path(
-                os.path.join(os.path.join(os.environ["USERPROFILE"]),
-                             "Downloads")))
+        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Downloads")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the downloads folder")
@@ -161,10 +162,7 @@ def download():
 
 def desktop():
     try:
-        os.startfile(
-            Path(
-                os.path.join(os.path.join(os.environ["USERPROFILE"]),
-                             "Desktop")))
+        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the desktop folder")
@@ -173,9 +171,7 @@ def desktop():
 
 def musicFolder():
     try:
-        os.startfile(
-            Path(os.path.join(os.path.join(os.environ["USERPROFILE"]),
-                              "Music")))
+        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Music")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the Music folder")
@@ -243,11 +239,7 @@ websitelist = [web for web in webdict]
 def websiteopen(website):
     try:
         import difflib
-
-        approx_match = difflib.get_close_matches(website,
-                                                 websitelist,
-                                                 cutoff=0.7,
-                                                 n=1)
+        approx_match = difflib.get_close_matches(website,websitelist,cutoff=0.7,n=1)
         print(f"Approximated {website} to {approx_match[0]}")
         webbrowser.open(webdict[approx_match[0]])
         talk(f"opening {approx_match[0]}")
