@@ -1,0 +1,7 @@
+*.pyc
+*.xml
+*.iml
+*.vira
+*.elsa
+*.json
+/.idea/*
