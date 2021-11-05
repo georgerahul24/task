@@ -122,12 +122,6 @@ def youtube(srch):
     webbrowser.open(f"https://www.youtube.com/results?search_query={srch}")
     talk('Here is what you requested')
 
-
-def ordShortenSrch(ord: str) -> str:
-    parts = ord.split()[1:]
-    return " ".join(parts)
-
-
 # .............folders......................
 def download():
     try:
