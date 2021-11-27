@@ -1,6 +1,7 @@
 """Contains all the necessary code to run various features like searching in net,running files,etc"""
 import datetime
 import difflib
+import json
 import os
 import random
 import subprocess
@@ -23,89 +24,20 @@ def tell_time():
 
 
 # ...........Programmes..........................
-def wordpad():
+programdata = json.load(open(os.path.abspath(__file__)[:-7] + "programs.json"))
+
+
+def getprogramnames():
+    return programdata.keys()
+
+
+def programopener(prgramname):
     try:
-        subprocess.Popen("C:\\Windows\\System32\\write.exe")
-        talk('I have opened wordpad for you')
-    except Exception as e: print(e, "Sorry i could not do what you requested. Try again later")
-
-
-def whatsapp():
-    try:
-        subprocess.Popen(os.path.join(os.path.join(os.environ["USERPROFILE"]), "AppData\\Local\\WhatsApp\\WhatsApp.exe"))
-        talk('I have opened whatsapp for you')
-
-    except Exception as e: print(e, "Sorry i couldn't do what you requested Try again later")
-
-
-def gimp():
-    try:
-        subprocess.Popen("C:\\Program Files\\GIMP 2\\bin\\gimp-2.10.exe")
-        talk("I have opened gimp for you")
-    except: talk("Sorry i could not open gimp ")
-
-
-def firefox():
-    try:
-        subprocess.Popen("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
-        talk("i have opened firefox for you")
-    except: talk("Sorry, could not open firefox")
-
-
-def photoshop():
-    try:
-        os.system("start photoshop")
-        talk("i have opened photoshop for you")
-    except: talk("Sorry, could not open photoshop")
-
-
-def vscode():
-    try:
-        os.system("code")
-        talk("i have opened visual studio code for you")
-    except: talk("Sorry, could not open visual studio code")
-
-
-def vlc():
-    try:
-        os.system("vlc")
-        talk("i have opened vlc for you")
-    except: talk("Sorry, could not open vlc")
-
-
-def telegram():
-    try:
-        os.system("telegram")
-        talk("i have opened telegram for you")
-    except: talk("Sorry, could not open telegram ")
-
-
-def powerpoint():
-    try:
-        os.system("start powerpnt")
-        talk("i have opened powerpoint for you")
-    except: talk("Sorry, could not open powerpoint ")
-
-
-def msword():
-    try:
-        os.system("start winword")
-        talk("i have opened word for you")
-    except: talk("Sorry, could not open word")
-
-
-def calc():
-    try:
-        os.system("calc")
-        talk("i have opened calculator for you")
-    except: talk("Sorry, could not open calculator")
-
-
-def notepad():
-    try:
-        os.system("notepad")
-        talk("i have opened notepad for you")
-    except: talk("Sorry, could not open notepad")
+        os.system(programdata[prgramname[0]])
+        talk(f"Opening {prgramname}")
+    except Exception as e:
+        print(e, "Sorry i could not do what you requested. Try again later")
+        talk("Sorry, could not open the program")
 
 
 # .........browser and net related................
@@ -121,6 +53,7 @@ def web(searchword):
 def youtube(srch):
     webbrowser.open(f"https://www.youtube.com/results?search_query={srch}")
     talk('Here is what you requested')
+
 
 # .............folders......................
 def download():
