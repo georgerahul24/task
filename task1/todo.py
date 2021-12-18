@@ -1,12 +1,12 @@
 import pickle
 import time
 import win10toast
+from os.path import abspath
 
-file = "todo.data"
-import datetime
+file = abspath(__file__)[:-2] + 'data'
 
 
-def addTodos(name, date, priority="Low"):
+def addTodos(name, date, priority = "Low"):
     try:
         with open(file, 'rb') as f:
             todos = pickle.load(f)
@@ -20,7 +20,7 @@ def addTodos(name, date, priority="Low"):
 
 
 def getAllTodos():
-    with open('todo.data', 'rb') as f:
+    with open(file, 'rb') as f:
         todos = pickle.load(f)
     alltodosdata = []
     for key, value in todos.items():
@@ -29,7 +29,7 @@ def getAllTodos():
 
 
 def deleteTODO(name):
-    with open('todo.data', 'rb+') as f:
+    with open(file, 'rb+') as f:
         todos = pickle.load(f)
         del todos[name]
         f.seek(0)
@@ -44,22 +44,32 @@ class TODOHandler:
     def start(self):
         def _start():
             todos = getAllTodos()
-            latestdate = min(i[1] for i in todos)
-            name = ''
+            print(todos)
+            latestdate = min(int(i[1]) for i in todos)
+            name = None
             for todo in todos:
-                if todo[1] == latestdate:
+                if int(todo[1]) == latestdate:
                     name = todo[0]
 
-            deleteTODO(name)
+            if name is not None: deleteTODO(name)
             return name, latestdate
 
+        print("Started TODO service")
         while True:
-            try:
-                name, latestdate = _start()
+            # try:
+            print("Trying to find TODO")
+            name, latestdate = _start()
+            if name is not None:
+                print(f"Next todo is  {name} in  {latestdate}")
                 time.sleep(latestdate)  # assume tht it is in seconds
                 win10toast.ToastNotifier().show_toast("Elsa", name)
-            except:  # Give time to update the todos as this exception usually comes when no todos are present
-                time.sleep(60)
+            else:
+                print("No TODO found")
+                time.sleep(10)
 
 
-TODOHandler().start()
+todohandler = TODOHandler()
+if __name__ == "__main__":
+    addTodos("test1", 2)
+    addTodos("test2", 10)
+    todohandler.start()
