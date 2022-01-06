@@ -9,7 +9,10 @@ import webbrowser
 from pathlib import Path
 
 from talk1.talk1 import talk
-
+import platform
+if platform.system() == 'Windows':
+    homedir = os.environ["USERPROFILE"]
+else:homedir = os.path.expanduser('~')
 
 # .....Time and Greeting............
 def greeting(nam):
@@ -58,21 +61,21 @@ def youtube(srch):
 # .............folders......................
 def download():
     try:
-        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Downloads")))
+        os.startfile(Path(os.path.join(os.path.join(homedir), "Downloads")))
         talk('Here is what you requested')
     except: talk("Sorry, could not open the downloads folder")
 
 
 def desktop():
     try:
-        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop")))
+        os.startfile(Path(os.path.join(os.path.join(homedir), "Desktop")))
         talk('Here is what you requested')
     except: talk("Sorry, could not open the desktop folder")
 
 
 def musicFolder():
     try:
-        os.startfile(Path(os.path.join(os.path.join(os.environ["USERPROFILE"]), "Music")))
+        os.startfile(Path(os.path.join(os.path.join(homedir), "Music")))
         talk('Here is what you requested')
     except:
         talk("Sorry, could not open the Music folder")
