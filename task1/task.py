@@ -10,18 +10,20 @@ from pathlib import Path
 
 from talk1.talk1 import talk
 import platform
+
 if platform.system() == 'Windows':
     homedir = os.environ["USERPROFILE"]
-else:homedir = os.path.expanduser('~')
+else: homedir = os.path.expanduser('~')
+
 
 # .....Time and Greeting............
-def greeting(nam):
+def greeting(nam) -> None:
     """Function to greet the user based on time of the day"""
     try: talk(f"Good morning {nam}") if datetime.datetime.now().hour < 12 else talk(f"Good evening {nam}")
     except Exception as e: print(e, "Sorry i could not do what you requested. Try again later")
 
 
-def tell_time():
+def tell_time() -> None:
     """"To tell the current time"""
     talk(f"It is {datetime.datetime.now().hour} {datetime.datetime.now().minute}")
 
@@ -30,11 +32,13 @@ def tell_time():
 programdata = json.load(open(os.path.abspath(__file__)[:-7] + "programs.json"))
 
 
-def getprogramnames():
+def getprogramnames() -> tuple:
+    """To get the names of all the programs supported by Elsa"""
     return programdata.keys()
 
 
-def programopener(prgramname):
+def programopener(prgramname) -> None:
+    """To open the program"""
     try:
         os.system(programdata[prgramname[0]])
         talk(f"Opening {prgramname}")
@@ -44,36 +48,41 @@ def programopener(prgramname):
 
 
 # .........browser and net related................
-def web(searchword):
+def web(searchword) -> None:
+    """To open the web browser along with the search results"""
     try:
-        webbrowser.open(("https://www.google.com/search?client=firefox-b-d&q=" + searchword), new=1)
+        webbrowser.open(("https://www.google.com/search?client=firefox-b-d&q=" + searchword), new = 1)
         talk(f"This is what I found for {searchword}")
     except:
-        webbrowser.open(searchword, new=1)
+        webbrowser.open(searchword, new = 1)
         print("Sorry i could not do what you requested Try again later")
 
 
-def youtube(srch):
+def youtube(srch) -> None:
+    """To open the youtube search results"""
     webbrowser.open(f"https://www.youtube.com/results?search_query={srch}")
     talk('Here is what you requested')
 
 
 # .............folders......................
-def download():
+def download() -> None:
+    """To open the downloads folder"""
     try:
         os.startfile(Path(os.path.join(os.path.join(homedir), "Downloads")))
         talk('Here is what you requested')
     except: talk("Sorry, could not open the downloads folder")
 
 
-def desktop():
+def desktop()->None:
+    """To open the desktop folder"""
     try:
         os.startfile(Path(os.path.join(os.path.join(homedir), "Desktop")))
         talk('Here is what you requested')
     except: talk("Sorry, could not open the desktop folder")
 
 
-def musicFolder():
+def musicFolder()->None:
+    """To open the music folder"""
     try:
         os.startfile(Path(os.path.join(os.path.join(homedir), "Music")))
         talk('Here is what you requested')
@@ -81,7 +90,8 @@ def musicFolder():
         talk("Sorry, could not open the Music folder")
 
 
-def joke():
+def joke()->None:
+    """To tell a joke"""
     try:
         jokeslist = [
             "My friend was explaining electricity to me, but I was like, wat ?",
@@ -97,7 +107,8 @@ def joke():
 
 
 # ...........shutdown,restart and log off.....
-def shutdown():
+def shutdown()->None:
+    """To shutdown the computer"""
     try:
         # /s is for shutdown ,/t is for timeout and 5 is the delay time
         talk("Shutting down your computer in 5 seconds. Bye bye")
@@ -105,7 +116,8 @@ def shutdown():
     except: talk("Sorry.Something went wrong")
 
 
-def restart():
+def restart()->None:
+    """To restart the computer"""
     try:
         # /r is for restart ,/t is for timeout and 5 is the delay time
         talk("Restarting your computer in 5 seconds. Bye bye")
@@ -136,9 +148,10 @@ websitelist = [web for web in webdict]
 
 
 # ......websites..............
-def websiteopen(website):
+def websiteopen(website)->None:
+    """To open the website"""
     try:
-        approx_match = difflib.get_close_matches(website, websitelist, cutoff=0.7, n=1)
+        approx_match = difflib.get_close_matches(website, websitelist, cutoff = 0.7, n = 1)
         print(f"Approximated {website} to {approx_match[0]}")
         webbrowser.open(webdict[approx_match[0]])
         talk(f"opening {approx_match[0]}")
