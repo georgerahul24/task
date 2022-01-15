@@ -65,32 +65,18 @@ def youtube(srch) -> None:
 
 
 # .............folders......................
-def download() -> None:
-    """To open the downloads folder"""
+def commonFolder(foldername) -> None:
+    """To open the common folders"""
     try:
-        os.startfile(Path(os.path.join(os.path.join(homedir), "Downloads")))
+        os.startfile(Path(os.path.join(os.path.join(homedir), foldername)))
         talk('Here is what you requested')
-    except: talk("Sorry, could not open the downloads folder")
+    except: talk(f"Sorry, could not open the {foldername} folder")
 
 
-def desktop()->None:
-    """To open the desktop folder"""
-    try:
-        os.startfile(Path(os.path.join(os.path.join(homedir), "Desktop")))
-        talk('Here is what you requested')
-    except: talk("Sorry, could not open the desktop folder")
+download, desktop, musicFolder = lambda: commonFolder('Downloads'), lambda: commonFolder('Desktop'), lambda: commonFolder('Music')
 
 
-def musicFolder()->None:
-    """To open the music folder"""
-    try:
-        os.startfile(Path(os.path.join(os.path.join(homedir), "Music")))
-        talk('Here is what you requested')
-    except:
-        talk("Sorry, could not open the Music folder")
-
-
-def joke()->None:
+def joke() -> None:
     """To tell a joke"""
     try:
         jokeslist = [
@@ -107,48 +93,23 @@ def joke()->None:
 
 
 # ...........shutdown,restart and log off.....
-def shutdown()->None:
+def turnoff(arg) -> None:
     """To shutdown the computer"""
     try:
         # /s is for shutdown ,/t is for timeout and 5 is the delay time
-        talk("Shutting down your computer in 5 seconds. Bye bye")
-        subprocess.call(["shutdown", "/s", "/t", "5"])
-    except: talk("Sorry.Something went wrong")
-
-
-def restart()->None:
-    """To restart the computer"""
-    try:
         # /r is for restart ,/t is for timeout and 5 is the delay time
-        talk("Restarting your computer in 5 seconds. Bye bye")
-        subprocess.call(["shutdown", "/r", "/t", "5"])
+        talk("Shutting down your computer in 5 seconds. Bye bye")
+        subprocess.call(["shutdown", arg, "/t", "5"])
     except: talk("Sorry.Something went wrong")
 
 
-webdict = {
-    "facebook": "https://www.facebook.com/",
-    "instagram": "https://www.instagram.com/",
-    "insta": "https://www.instagram.com/",
-    "whatsapp": "https://web.whatsapp.com/",
-    "wa": "https://web.whatsapp.com/",
-    "george": "https://github.com/georgerahul24",
-    "elizabeth": "https://github.com/swarley2021",
-    "austin": "https://github.com/AustinBert",
-    "parthan": "https://github.com/PARTHAN27",
-    "diya": "https://github.com/diyapratheep123",
-    "netflix": "https://www.netflix.com/",
-    "primevideo": "https://www.primevideo.com/",
-    "hotstar": "https://www.hotstar.com/",
-    "spotify": "https://www.spotify.com/",
-    "pinterest": "https://in.pinterest.com/",
-    "quora": "https://www.quora.com/",
-    "meet": "https://meet.google.com",
-    }
-websitelist = [web for web in webdict]
+shutdown, restart = lambda: turnoff('\s'), lambda: turnoff('\r')
+webdict = json.load(open(os.path.abspath(__file__)[:-7] + "weblist.json"))
+websitelist = tuple(web for web in webdict)
 
 
 # ......websites..............
-def websiteopen(website)->None:
+def websiteopen(website) -> None:
     """To open the website"""
     try:
         approx_match = difflib.get_close_matches(website, websitelist, cutoff = 0.7, n = 1)
