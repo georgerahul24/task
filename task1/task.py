@@ -15,26 +15,13 @@ if platform.system() == 'Windows':
     homedir = os.environ["USERPROFILE"]
 else: homedir = os.path.expanduser('~')
 
-
 # .....Time and Greeting............
-def greeting(nam) -> None:
-    """Function to greet the user based on time of the day"""
-    try: talk(f"Good morning {nam}") if datetime.datetime.now().hour < 12 else talk(f"Good evening {nam}")
-    except Exception as e: print(e, "Sorry i could not do what you requested. Try again later")
-
-
-def tell_time() -> None:
-    """"To tell the current time"""
-    talk(f"It is {datetime.datetime.now().hour} {datetime.datetime.now().minute}")
-
+greeting = lambda nam: talk(f"Good morning {nam}") if datetime.datetime.now().hour < 12 else talk(f"Good evening {nam}")
+tell_time = lambda: talk(f"It is {datetime.datetime.now().hour} {datetime.datetime.now().minute}")  # To tell the current time
 
 # ...........Programmes..........................
 programdata = json.load(open(os.path.abspath(__file__)[:-7] + "programs.json"))
-
-
-def getprogramnames() -> tuple:
-    """To get the names of all the programs supported by Elsa"""
-    return programdata.keys()
+getprogramnames = lambda: programdata.keys()  # To get the names of all the programs supported by Elsa
 
 
 def programopener(prgramname) -> None:
@@ -51,7 +38,7 @@ def programopener(prgramname) -> None:
 def web(searchword) -> None:
     """To open the web browser along with the search results"""
     try:
-        webbrowser.open(("https://www.google.com/search?client=firefox-b-d&q=" + searchword), new = 1)
+        webbrowser.open(("https://www.google.com/search?client=firefox-b-d&q=" + searchword), new = 1)  # Works best in firefox
         talk(f"This is what I found for {searchword}")
     except:
         webbrowser.open(searchword, new = 1)
@@ -79,14 +66,10 @@ download, desktop, musicFolder = lambda: commonFolder('Downloads'), lambda: comm
 def joke() -> None:
     """To tell a joke"""
     try:
-        jokeslist = [
-            "My friend was explaining electricity to me, but I was like, wat ?",
-            "I failed math so many times at school, I can’t even count",
-            "Never trust atoms; they make up everything",
-            "George is searchword fool",
-            "The future, the present, and the past walk into searchword bar. Things got searchword little tense",
-            "It was an emotional wedding. Even the cake was in tiers",
-            ]
+        jokeslist = ["My friend was explaining electricity to me, but I was like, wat ?",
+                     "I failed math so many times at school, I can’t even count",
+                     "Never trust atoms; they make up everything",
+                     "The future, the present, and the past walk into a bar. Things got a little tense"]
         jokeselected = random.choice(jokeslist)
         talk(jokeselected)
     except: talk("Give me time to think. please try again")
